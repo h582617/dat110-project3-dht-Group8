@@ -44,21 +44,40 @@ public class Util {
 		// if id = 9, then (6 < 9 <= 2) = true
 		
 		// Task: given an identifier, id: check whether pred < id <= node
-		
-		return false;
+		// implement: read the descriptions above
+		boolean cond = false;
 
-	}
-	
-	public static List<String> toString(List<NodeInterface> list) throws RemoteException {
-		List<String> nodestr = new ArrayList<String>();
-		list.forEach(node -> 
-			{
-				nodestr.add(((Node)node).getNodeName());
+		BigInteger adressSize = Hash.addressSize();
+
+		if(lower.compareTo(upper) > 0){
+			if(id.compareTo(upper) <= 0){
+				id = id.add(adressSize);
 			}
-		);
-		
-		return nodestr;
+			upper = upper.add(adressSize);
+		}
+
+		if((lower.compareTo(id) <= 0) && (id.compareTo(upper) <= 0)){
+			cond = true;
+		}
+		return cond;
+
+		/* if (upper.compareTo(lower) > 0) {
+			return id.compareTo(lower) >= 0 && id.compareTo(upper) <= 0;
+		} else {
+			return id.compareTo(lower) >= 0 || id.compareTo(upper) <= 0;
+		} */
 	}
+
+     public static List<String> toString(List<NodeInterface> list) throws RemoteException {
+             List<String> nodestr = new ArrayList<String>();
+             list.forEach(node -> 
+                     {
+	                         nodestr.add(((Node)node).getNodeName());
+                     }
+             );
+
+             return nodestr;
+      }
 	
 	public static NodeInterface getProcessStub(String name, int port) {
 		
